@@ -13,17 +13,32 @@ class UserRepo {
         return toCamelCase(rows);
     }
 
-      static findById(){
-
+      static async findById(){
+        const {rows} =await pool.query( //request is prepared
+            `SELECT * FROM users WHERE id = $1;`,[id]
+        );
+        return toCamelCase(rows)[0];
       }
-      static insert(){
 
+      static async insert(username,bio){
+           const {rows}= await pool.query('INSERT INTO users (username,bio) VALUES ($1,$2) RETURNING *;',[username,bio]);
+           return toCamelCase(rows)[0];
       }
-      static update(){
 
+      static async update(id, username,bio){
+            const {rows} = await pool.query(
+                'UPDATE users SET username = $1,bio=$2, WHERE id =$3 RETURNING *;',
+                 [username,bio,id]
+            );
+
+            return toCamelCase(rows)[0];
       }
-      static delete(){
 
+      static async delete(){
+ const {rows} =await pool.query( //request is prepared
+            `DELETE * FROM users WHERE id = $1 RETURNING *;`,[id]
+        );
+        return toCamelCase(rows)[0];
       }
 }
 

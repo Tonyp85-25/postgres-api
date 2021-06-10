@@ -23,10 +23,9 @@ class Pool{
        return this._pool.end();
     }
 
-    //Really big security issue here
-    query(sql)
+    query(sql,params)
     {
-        return this._pool.query(sql);
+        return this._pool.query(sql,params);
     }
 }
 module.exports=new Pool()
