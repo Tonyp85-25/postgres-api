@@ -35,10 +35,15 @@ class UserRepo {
       }
 
       static async delete(){
- const {rows} =await pool.query( //request is prepared
+        const {rows} =await pool.query( //request is prepared
             `DELETE * FROM users WHERE id = $1 RETURNING *;`,[id]
         );
         return toCamelCase(rows)[0];
+      }
+
+      static async count(){
+          const {rows} = await pool.query('SELECT COUNT(*) FROM users;');
+          return rows[0].count;
       }
 }
 
