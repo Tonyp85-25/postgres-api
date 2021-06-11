@@ -4,18 +4,15 @@ const pool = require('../../pool');
 const UserRepo = require('../../repository/user-repo');
 const {DB_TEST,DB_USER,DB_PASSWORD} = require('../../../local.config')
 
-beforeAll(()=>{
-    return pool.connect({
-        host:'localhost',
-        port:5432,
-        database:DB_TEST,
-        user: DB_USER,
-        password:DB_PASSWORD
-    })
+const Context = require('../context');
+
+let context;
+beforeAll(async()=>{
+  context = await Context.build();
 });
 
 afterAll(()=>{
-    return pool.close();
+    return context.close();
 });
 
 //BAD TEST
